@@ -20,7 +20,8 @@ Companion to the `index.md` rewrite on branch `rewrite/policy-2026-09`. This fil
 | UODO / supervisory-authority complaint right added to "Your rights" | New content — GDPR requirement not previously stated. |
 | Children's policy (under 16) added | New content — not previously stated. |
 | International-transfer sentence (DPF/SCC) added for Google and Resend, with an inline `VERIFY` comment on Resend specifically | New content, per your instruction to flag Resend's DPA/transfer mechanism as unverified. |
-| **Not included:** "invites to someone who has no account yet" | See open questions — this contradicts the backend audit's own findings, so I left it out rather than assert something the audit says is false. |
+| **Not included:** "invites to someone who has no account yet" | Confirmed by you (2026-09-23): the audit is correct, invites only work between existing accounts. Left out permanently. |
+| New sentence in "Sharing a list": partner's display name/email stored locally, excluded from device backups, removed on uninstall | Android audit §3/§7 confirms `shared_with`/`owner_email` are stored in the app-private `auth` DataStore and are covered by `data_extraction_rules.xml`/`backup_rules.xml` exclusions (so excluded from backups) and are standard app-private storage (so cleared on uninstall, per Android's own storage model). The audit does **not** describe what sign-out does to this DataStore, so "removed when you sign out" was left out per your instruction — only the uninstall half is stated. |
 
 ## Sentences to update when planned fixes ship
 
@@ -31,10 +32,16 @@ These are the specific places to revisit once each fix lands — don't merge the
 - **Invite / unverified-account cleanup job:** once a sweep exists for stale `pending_invites` and never-verified accounts, update "How long we keep your data" to state a concrete retention period for those instead of the current "we don't yet have an automatic cleanup process" admission.
 - **Paid unlock via Google Play Billing:** if/when this ships, add a new "Payments" section (Google Play Billing receives purchase tokens; no card details reach us) and add a line to "What we collect" and "Service providers."
 
+## Resolved (2026-09-23)
+
+- **Invite-to-non-account-holder claim:** confirmed incorrect; the audit stands. Not in the policy, and not revisited.
+- **Web-server access logs:** confirmed on the server — the Caddyfile has no log directive, so Caddy writes none. The policy's "we don't run a separate web-server access log" statement stands as written.
+- **Locally-stored partner data on Android:** added one sentence to "Sharing a list" (see table above). Only the "excluded from backups" and "removed on uninstall" facts are stated — sign-out behavior isn't confirmed by the audit, so it's left out.
+
+## Fixed before publication
+
+- **Email addresses logged on Resend failures.** The backend audit found `mailer.py:92-95, 119, 124-126` log the recipient's email address on send failures. You're fixing this in the backend by masking the address before logging. Since the fix will land before this page goes live, the policy text was written as if this never happened and doesn't need a "planned fix" caveat — it says only "the app logs each request with the IP address" and stays silent on email logging. **Do not merge/publish this branch until the masking fix has actually shipped**, or the policy's silence on this point becomes inaccurate again.
+
 ## Open questions for you
 
-1. **Invite-to-non-account-holder claim.** Your brief asked me to cover "invites, including the email of an invited person who has no account yet." The backend audit (§2e) says the opposite: `POST /lists/{list_id}/invite` looks up the address in `users` and returns `no_account_for_email` (404) if no account exists — it never stores or emails an address without an account. I followed the audit and left this out of the policy. Let me know if I'm missing a code path, or if this is a feature that doesn't exist yet and was misremembered.
-2. **Resend's DPA / transfer mechanism** — flagged inline with `<!-- VERIFY: Resend DPA -->`. I don't have visibility into your actual contract with Resend, so this needs a manual check.
-3. **Email addresses logged on Resend failures.** The backend audit found `mailer.py:92-95, 119, 124-126` log the recipient's email address (via `print()`, landing in journald) when a verification/reset email fails to send or send. This isn't covered by the "IP address, 14 days" description you gave me — do you want it disclosed too, folded into the same 14-day retention, or is it out of scope?
-4. **Web-server access logs.** You confirmed there are none. The backend audit couldn't verify this from the repo (Caddy config is server-side, out of scope) — worth a one-time check that Caddy itself isn't writing a separate access log somewhere.
-5. **Locally-stored partner data on Android.** The Android audit (§3, §7) notes that `shared_with`/`owner_email` (your partner's email) and per-item `assignedTo` names are stored unencrypted in the app's local DataStore/Room DB on each member's device — this is local-only, not a data flow to us or a third party, so I didn't add a line for it, but flag if you want one anyway.
+1. **Resend's DPA / transfer mechanism** — flagged inline with `<!-- VERIFY: Resend DPA -->`. You're verifying the sending region and DPA acceptance yourself; leave the comment in place until that's confirmed, then remove it.

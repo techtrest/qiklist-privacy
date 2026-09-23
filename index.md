@@ -73,6 +73,8 @@ To be honest about the gaps: we don't yet have an automatic cleanup process for 
 
 Calluna lets two people share a single shopping list. Once you invite someone or accept an invite, both people can see the list's contents, and either person can invite, leave, or remove the other at any time. There's no owner — both partners have equal control.
 
+The app also stores your partner's display name and email address on your device, so it can show you who you're sharing the list with. This local data is excluded from device backups, and is removed if you uninstall the app.
+
 ## Deleting your account
 
 You can permanently delete your account and its data at any time, in the app: open the menu → Account → Delete account. You can also ask us to delete your account by emailing techtrest@pm.me.
