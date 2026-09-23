@@ -37,6 +37,7 @@ These are the specific places to revisit once each fix lands — don't merge the
 - **Invite-to-non-account-holder claim:** confirmed incorrect; the audit stands. Not in the policy, and not revisited.
 - **Web-server access logs:** confirmed on the server — the Caddyfile has no log directive, so Caddy writes none. The policy's "we don't run a separate web-server access log" statement stands as written.
 - **Locally-stored partner data on Android:** added one sentence to "Sharing a list" (see table above). Only the "excluded from backups" and "removed on uninstall" facts are stated — sign-out behavior isn't confirmed by the audit, so it's left out.
+- **Resend's DPA / transfer mechanism:** verified by you (2026-09-23). Resend's GDPR DPA is pre-signed and in force automatically for every account; Resend stores customer data, including email content and delivery logs, in the US regardless of sending region; transfers are covered by the EU-US Data Privacy Framework (Resend is certified) and the SCCs in their DPA. The `<!-- VERIFY: Resend DPA -->` comment has been removed and the "Service providers" section now states this plainly.
 
 ## Fixed before publication
 
@@ -44,4 +45,4 @@ These are the specific places to revisit once each fix lands — don't merge the
 
 ## Open questions for you
 
-1. **Resend's DPA / transfer mechanism** — flagged inline with `<!-- VERIFY: Resend DPA -->`. You're verifying the sending region and DPA acceptance yourself; leave the comment in place until that's confirmed, then remove it.
+None remaining.

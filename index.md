@@ -44,7 +44,7 @@ We use a small number of outside services to run Calluna. Here's what each one r
 | **Google Sign-In** | Your Google sign-in token, only if you choose to sign in with Google | Verifying your identity when you sign in with a Google account |
 | **Resend** | Your email address, and the content of account emails (verification and password-reset links) | Sending account-related emails |
 
-Hetzner is based in the EU, so no international transfer safeguard is needed there. Google and Resend are US-based; where personal data leaves the EU, we rely on the EU–US Data Privacy Framework or Standard Contractual Clauses. <!-- VERIFY: Resend DPA -->
+Hetzner is based in the EU, so no international transfer safeguard is needed there. Google is US-based; where personal data leaves the EU, we rely on the EU–US Data Privacy Framework or Standard Contractual Clauses. Resend, our email provider, is also a US company and stores email data in the United States regardless of where it's sent from — this transfer is covered by the EU–US Data Privacy Framework (Resend is certified) and the Standard Contractual Clauses in Resend's data processing agreement.
 
 To be direct about the Firebase point above: to show you a notification like "your partner added milk," we currently have to send the item name itself through Google's servers as part of the message. As of this policy, that's how notifications work.
 
